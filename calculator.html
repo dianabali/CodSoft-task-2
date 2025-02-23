@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #1e273b;
+        }
+
+        .calculator {
+            background: #161b22;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .display {
+            width: 91.5%;
+            height: 80px;
+            text-align: right;
+            font-size: 36px;
+            padding: 15px;
+            background: #1e2734;
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            justify-content: center;
+        }
+
+        button {
+            width: 80px;
+            height: 80px;
+            font-size: 24px;
+            border: none;
+            border-radius: 30px;
+            background: #222831;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        button.operator {
+            background: #3c34d7;
+        }
+        
+        button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <button onclick="clearAll()" class="operator">AC</button>
+            <button onclick="clearEntry()" class="operator">CE</button>
+            <button onclick="press('%')" class="operator">%</button>
+            <button onclick="press('/')" class="operator">÷</button>
+            <button onclick="press('7')">7</button>
+            <button onclick="press('8')">8</button>
+            <button onclick="press('9')">9</button>
+            <button onclick="press('*')" class="operator">×</button>
+            <button onclick="press('4')">4</button>
+            <button onclick="press('5')">5</button>
+            <button onclick="press('6')">6</button>
+            <button onclick="press('-')" class="operator">-</button>
+            <button onclick="press('1')">1</button>
+            <button onclick="press('2')">2</button>
+            <button onclick="press('3')">3</button>
+            <button onclick="press('+')" class="operator">+</button>
+            <button onclick="press('+/-')">+/-</button>
+            <button onclick="press('0')">0</button>
+            <button onclick="press('.')">.</button>
+            <button onclick="calculate()" class="operator">=</button>
+        </div>
+    </div>
+    <script>
+        let expression = "";
+        function press(value) {
+            if (value === '+/-') {
+                if (expression && expression[0] === '-') {
+                    expression = expression.substring(1);
+                } else {
+                    expression = '-' + expression;
+                }
+            } else if (value === '%') {
+                expression = (parseFloat(expression) / 100).toString();
+            } else {
+                if (expression === "0") expression = "";
+                expression += value;
+            }
+            document.getElementById("display").textContent = expression;
+        }
+
+        function calculate() {
+            try {
+                expression = eval(expression);
+                document.getElementById("display").textContent = expression;
+            } catch {
+                document.getElementById("display").textContent = "Error";
+            }
+        }
+
+        function clearAll() {
+            expression = "";
+            document.getElementById("display").textContent = "0";
+        }
+
+        function clearEntry() {
+            expression = expression.slice(0, -1);
+            document.getElementById("display").textContent = expression || "0";
+        }
+    </script>
+</body>
+</html>
